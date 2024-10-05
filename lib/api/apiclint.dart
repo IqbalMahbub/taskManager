@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:taskmanager/utility/utility.dart';
 
 import '../style/style.dart';
 var BaseUrl ="https://task.teamrabbil.com/api/v1";
@@ -16,6 +17,7 @@ Future<bool>LoginRequest(FormValues) async {
 
   if(ResultCode==200 && ResultBody['status']=="success"){
     SuccessToast("Request Success");
+    StoreUserData(ResultBody);
     return true;
   }
   else{

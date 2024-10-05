@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskmanager/screen/onboarding/emailVerificationScreen.dart';
@@ -8,7 +9,12 @@ import 'package:taskmanager/screen/onboarding/setPasswordScreen.dart';
 import 'package:taskmanager/screen/onboarding/splashScreen.dart';
 import 'package:taskmanager/screen/taskScreen/newTaskListScreen.dart';
 
-void main(){
+import 'firebase_options.dart';
+
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const Myapp());
 }
 class Myapp extends StatelessWidget {
