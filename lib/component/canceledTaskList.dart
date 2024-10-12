@@ -20,6 +20,17 @@ class _canceledTaskListState extends State<canceledTaskList> {
   }
   List TaskItem=[];
   bool Loading=true;
+  UpdateStatus(id)async{
+    setState(() {
+      Loading=true;
+    });
+    await TaskUpdateRequest(id, Status);
+    await callData();
+    setState(() {
+      Status='Canceled';
+    });
+  }
+
 
   callData ()async{
     var data= await TaskListRequest("Canceled");
@@ -28,6 +39,8 @@ class _canceledTaskListState extends State<canceledTaskList> {
       TaskItem=data;
     });
   }
+
+
   DeleteItem(id) async{
     showDialog(context: context,
         builder:(BuildContext){
@@ -52,7 +65,10 @@ class _canceledTaskListState extends State<canceledTaskList> {
 
     );
   }
+
+
   String Status ="Canceled";
+
   StatusChanged(id) async{
     showModalBottomSheet(context: context,
         builder: (contex){
@@ -97,6 +113,8 @@ class _canceledTaskListState extends State<canceledTaskList> {
                       style: AppButtonStyle(),
                       child: SuccessButtonChild("Confirm"),
                       onPressed: (){
+                        Navigator.pop(context);
+                        UpdateStatus(id);
 
                       },
                     ),
@@ -111,6 +129,8 @@ class _canceledTaskListState extends State<canceledTaskList> {
 
     );
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Loading?(Center(child: CircularProgressIndicator(),)):

@@ -21,7 +21,16 @@ class _compleatedTaskListState extends State<compleatedTaskList> {
   List TaskItem=[];
   bool Loading=true;
 
-
+  UpdateStatus(id)async{
+    setState(() {
+      Loading=true;
+    });
+    await TaskUpdateRequest(id, Status);
+    await callData();
+    setState(() {
+      Status='New';
+    });
+  }
 
   callData ()async{
     var data= await TaskListRequest("completed");
@@ -56,6 +65,7 @@ class _compleatedTaskListState extends State<compleatedTaskList> {
     );
   }
   String Status ="Completed";
+
   StatusChanged(id) async{
     showModalBottomSheet(context: context,
         builder: (contex){
@@ -100,7 +110,8 @@ class _compleatedTaskListState extends State<compleatedTaskList> {
                       style: AppButtonStyle(),
                       child: SuccessButtonChild("Confirm"),
                       onPressed: (){
-
+                                Navigator.pop(context);
+                               UpdateStatus(id);
                       },
                     ),
                   )

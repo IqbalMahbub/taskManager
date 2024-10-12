@@ -29,6 +29,19 @@ class _progressedTaskListState extends State<progressedTaskList> {
       TaskItem=data;
     });
   }
+
+  UpdateStatus(id)async{
+    setState(() {
+      Loading=true;
+    });
+    await TaskUpdateRequest(id, Status);
+    await callData();
+    setState(() {
+      Status='Progress';
+    });
+  }
+
+
   DeleteItem(id) async{
     showDialog(context: context,
         builder:(BuildContext){
@@ -53,7 +66,9 @@ class _progressedTaskListState extends State<progressedTaskList> {
 
     );
   }
+
   String Status ="Progress";
+
   StatusChanged(id) async{
     showModalBottomSheet(context: context,
         builder: (contex){
@@ -98,7 +113,8 @@ class _progressedTaskListState extends State<progressedTaskList> {
                       style: AppButtonStyle(),
                       child: SuccessButtonChild("Confirm"),
                       onPressed: (){
-
+                        Navigator.pop(context);
+                        UpdateStatus(id);
                       },
                     ),
                   )

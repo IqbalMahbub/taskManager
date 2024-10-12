@@ -54,6 +54,17 @@ class _newTaskListState extends State<newTaskList> {
     );
 }
 
+
+ UpdateStatus(id)async{
+   setState(() {
+     Loading=true;
+   });
+   await TaskUpdateRequest(id, Status);
+   await callData();
+   setState(() {
+     Status='New';
+   });
+ }
   String Status ="New";
   StatusChanged(id) async{
     showModalBottomSheet(context: context,
@@ -99,7 +110,8 @@ class _newTaskListState extends State<newTaskList> {
                       style: AppButtonStyle(),
                       child: SuccessButtonChild("Confirm"),
                       onPressed: (){
-
+                        Navigator.pop(context);
+                        UpdateStatus(id);
                       },
                     ),
                   )
