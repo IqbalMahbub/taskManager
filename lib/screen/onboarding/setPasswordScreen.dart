@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:taskmanager/utility/utility.dart';
 
+import '../../api/apiclint.dart';
 import '../../style/style.dart';
 
 class setPasswordScreen extends StatefulWidget {
@@ -10,6 +12,49 @@ class setPasswordScreen extends StatefulWidget {
 }
 
 class _setPasswordScreenState extends State<setPasswordScreen> {
+  Map<String,String> FormValue ={
+    "email":"",
+    "OTP":"",
+    "password":"",
+    "cpassword":""
+  };
+  bool Loading =false;
+  @override
+  void initState() {
+   callStoreData();
+    super.initState();
+  }
+  callStoreData() async{
+    String? OTP=await ReadUserData("OTPVarification");
+    String? Email=await ReadUserData("EmailVarification");
+    inputOnChanged('email', Email);
+    inputOnChanged('OTP', OTP);
+  }
+  inputOnChanged(inputKye,inputValue){
+    setState(() {
+      FormValue.update(inputKye, (value) =>inputValue);
+    });
+  }
+  FormInputValidation() async {
+    if(FormValue["password"]!.length==0){
+      ErrorToast("Password Requierd");
+    }
+    else if(FormValue['password']!=FormValue['cpassword']){
+      ErrorToast("Password not match");
+    }
+    else{
+      setState(() {Loading=true;});
+
+      bool res=  await  SetPasswordRequest(FormValue);
+      if(res){
+        Navigator.pushNamedAndRemoveUntil(context,"/login" , (route) => false);
+      }
+      else{
+        setState(() {Loading=false;});
+      }
+
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

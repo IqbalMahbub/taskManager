@@ -32,20 +32,21 @@ class _splashScreenState extends State<loginScreen> {
       ErrorToast("Email Requierd");
     }
     else if(FormValue['password']!.length==0){
-
       ErrorToast("password Required");
     }
     else{
       setState(() {Loading=true;});
-        Navigator.pushNamedAndRemoveUntil(context,"/newTasklistScreen" ,
-            (route) => false);
-      // bool res=  await  LoginRequest(FormValue);
-      // if(res){
-      //   // Navigate to Dashboard
-      // }
-      // else{
-      //   ErrorToast("Fail to Login");
-      // }
+
+      bool res=  await  LoginRequest(FormValue);
+      print(res);
+      if(res){
+        // Navigate to Dashboard
+        Navigator.pushNamedAndRemoveUntil(context,"/" ,
+                (route) => false);
+      }
+      else{
+        ErrorToast("Fail to Login");
+      }
       setState(() {Loading=false;});
     }
   }
@@ -73,7 +74,8 @@ class _splashScreenState extends State<loginScreen> {
                     Text('Get Started With',style: Head1Text(colorDarkBlue),),
                     SizedBox(height: 2,),
 
-                    Text('Learn with Rabbil hasan',style: Head6Text(colorLightGray),),
+                    Text('Learn with Iqbal Mahbub',style: Head6Text
+                      (colorLightGray),),
                     SizedBox(height: 2,),
 
                     TextFormField(
@@ -87,7 +89,6 @@ class _splashScreenState extends State<loginScreen> {
                           value);},
                       decoration: AppInputDecoration('Password'),),
                     SizedBox(height: 2,),
-
                     Container(
                       child: ElevatedButton(
                         style: AppButtonStyle(),
@@ -96,7 +97,40 @@ class _splashScreenState extends State<loginScreen> {
                           FormInputValidation();
                         },
                       ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          InkWell(
+                            onTap: (){
+                              Navigator.pushNamed(context, "/emailVarification"
+                                  );
+                            },
+                            child: Text('Forget Password',style: Head7Text
+                              (colorRed),),
+                          ),
+                          SizedBox(height: 20,),
+                          InkWell(
+                            onTap: (){
+                              Navigator.pushNamed(context, "/registration");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Don't have a account!!",style: Head7Text
+                                  (colorDarkBlue),),
+                                SizedBox(width: 10,),
+                                Text("Sign UP",style: Head7Text(colorGreen),)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     )
+
                   ],
                 ),
               )
